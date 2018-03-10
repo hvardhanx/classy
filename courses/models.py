@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from student.models import Student
+from students.models import Student
 from uuslug import slugify
 
 
@@ -17,6 +17,9 @@ class Subject(models.Model):
         verbose_name_plural = 'Subjects'
 
     def __unicode__(self):
+        return self.title
+
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):

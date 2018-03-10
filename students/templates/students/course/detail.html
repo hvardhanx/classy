@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    {{ object.title }}
+{% endblock %}
+
+{% block content %}
+    <p>You have successfully enrolled in <a href="{% url "course_detail" course.slug %}">{{ object.title }}</a>! Have a great semester ahead!</p>
+    <p>Your friends for this semester:</p>
+    {% for student in object.students.all %}
+        <li>{{ student.username }}</li>
+    {% endfor %}
+    <p></p>
+{% endblock %}

@@ -5,9 +5,11 @@ from django.contrib.auth import authenticate, login
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from braces.views import LoginRequiredMixin
+from django.views.generic import TemplateView
+from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
 from courses.models import Course
 from .forms import CourseEnrollForm
+from django.shortcuts import redirect
 
 
 class StudentRegistrationView(CreateView):
@@ -30,7 +32,9 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         self.course = form.cleaned_data['course']
-        self.course.students.add(self.request.user)
+        print(self.course.students.count())
+        if self.course.students.count() <= 5:
+            self.course.students.add(self.request.user)
         return super(StudentEnrollCourseView, self).form_valid(form)
 
     def get_success_url(self):
@@ -43,4 +47,13 @@ class StudentCourseListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super(StudentCourseListView, self).get_queryset()
+        return qs.filter(students__in=[self.request.user])
+
+
+class StudentCourseEnrolledView(DetailView):
+    model = Course
+    template_name = 'students/course/detail.html'
+
+    def get_queryset(self):
+        qs = super(StudentCourseEnrolledView, self).get_queryset()
         return qs.filter(students__in=[self.request.user])

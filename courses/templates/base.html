@@ -2,33 +2,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>{% block title %}Classy{% endblock %}</title>
-    <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-    <div id="header">
-        <a href="/" class="logo">Classy</a>
-        <ul class="menu">
-            {% if request.user.is_authenticated %}
-                <li><a href="{% url "logout" %}">Sign out</a></li>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand">Classy</a>
+        </div>
+        <ul class="nav navbar-nav">
+            {% if request.user.is_authenticated and not request.user.is_superuser %}
+                <li class="nav-item"><a class="nav-link" href="{% url "student_course_list" %}">My courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url "logout" %}">Sign out</a></li>
+            {% elif request.user.is_authenticated and request.user.is_superuser %}
+                <li class="nav-item"><a class="nav-link" href="{% url "manage_course_list" %}">My courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url "course_create" %}">Create courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url "logout" %}">Sign out</a></li>
             {% else %}
-                <li><a href="{% url "login" %}">Sign in</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url "login" %}">Sign in</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url "student_registration" %}">Sign up</a></li>
             {% endif %}
         </ul>
     </div>
-    <div id="content">
-        {% block content %}
-        {% endblock %}
-    </div>
+</nav>
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            {% block domready %}
-            {% endblock %}
-        });
-    </script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        {% block domready %}
+        {% endblock %}
+    });
+</script>
 </body>
 </html>

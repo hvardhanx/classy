@@ -6,27 +6,31 @@
 
 {% block content %}
     {% with subject=object.subject %}
-        <h1>
+        <h2>
             {{ object.title }}
-        </h1>
-        <div class="module">
-            <h2>Overview</h2>
+        </h2>
+        <div class="container">
+            <h3>Overview</h3>
             <p>
-                <a href="{% url "course_list_subject" subject.slug %}">{{ subject.title }}</a>.
-                {{ object.modules.count }} modules.
-                Instructor: {{ object.owner.get_full_name }}
+                Subject: <a href="{% url "course_list_subject" subject.slug %}">{{ subject.title }}</a>.<br>
+                Instructor: {{ object.owner.get_full_name|default:object.owner.username }}
             </p>
             {{ object.overview|linebreaks }}
-            {% if request.user.is_authenticated %}
+            {% if request.user.is_authenticated and not request.user.is_superuser %}
                 <form action="{% url "student_enroll_course" %}" method="post">
                     {{ enroll_form }}
                     {% csrf_token %}
-                    <input type="submit" class="button" value="Enroll now">
+                    <input type="submit" class="btn btn-primary" value="Enroll now">
                 </form>
-            {% else %}
+            {% elif not request.user.is_authenticated %}
                 <a href="{% url "student_registration" %}" class="button">
                     Register to enroll
                 </a>
+            {% elif request.user.is_superuser and request.user.is_authenticated %}
+                Students enrolled:
+                {% for student in object.students.all %}
+                    <li>{{ student.username }}</li>
+                {% endfor %}
             {% endif %}
         </div>
     {% endwith %}

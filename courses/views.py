@@ -9,7 +9,7 @@ from django.db.models import Count
 from django.apps import apps
 from django.core.cache import cache
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin, \
-                         CsrfExemptMixin, JsonRequestResponseMixin
+    CsrfExemptMixin, JsonRequestResponseMixin
 from students.forms import CourseEnrollForm
 from .models import Subject, Course
 import logging
@@ -86,5 +86,5 @@ class CourseDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(CourseDetailView, self).get_context_data(**kwargs)
-        context['enroll_form'] = CourseEnrollForm(initial={'course':self.object})
+        context['enroll_form'] = CourseEnrollForm(initial={'course': self.object})
         return context

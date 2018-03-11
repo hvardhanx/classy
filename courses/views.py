@@ -1,13 +1,10 @@
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateResponseMixin, View
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
-from django.forms.models import modelform_factory
 from django.db.models import Count
-from django.apps import apps
-from django.core.cache import cache
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin, \
     CsrfExemptMixin, JsonRequestResponseMixin
 from students.forms import CourseEnrollForm
@@ -70,8 +67,6 @@ class CourseListView(TemplateResponseMixin, View):
     def get(self, request, subject=None):
         subjects = Subject.objects.annotate(total_courses=Count('courses'))
         all_courses = Course.objects.all()
-        # log.debug("subject {}".format(subject))
-        print(subject)
         if subject:
             subject = get_object_or_404(Subject, slug=subject)
             courses = all_courses.filter(subject=subject)

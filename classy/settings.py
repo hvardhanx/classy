@@ -140,5 +140,5 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # password
 EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 
-LOGIN_REDIRECT_URL = reverse_lazy('student_course_list')
+LOGIN_REDIRECT_URL = reverse_lazy('course_list')
 django_heroku.settings(locals())

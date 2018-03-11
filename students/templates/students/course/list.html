@@ -5,11 +5,10 @@
 {% block content %}
     <h1>My courses</h1>
 
-    <div class="module">
+    <div class="container">
         {% for course in object_list %}
             <div class="course-info">
-                <h3>{{ course.title }}</h3>
-                <p><a href="{% url "student_course_detail" course.id %}">Access contents</a></p>
+                <h3><a href="{% url "student_course_detail" course.id %}">{{ course.title }}</a></h3>
             </div>
         {% empty %}
             <p>

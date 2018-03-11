@@ -20,7 +20,16 @@
                 <form action="{% url "student_enroll_course" %}" method="post">
                     {{ enroll_form }}
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-primary" value="Enroll now">
+                    {% if request.user not in object.students.all %}
+                        <input type="submit" class="btn btn-primary" value="Enroll now">
+                    {% endif %}
+                </form>
+                <form action="{% url "student_leave_course" %}" method="post">
+                    {{ enroll_form }}
+                    {% csrf_token %}
+                    {% if request.user in object.students.all %}
+                        <input type="submit" class="btn btn-danger" value="Leave course">
+                    {% endif %}
                 </form>
             {% elif not request.user.is_authenticated %}
                 <a href="{% url "student_registration" %}" class="button">

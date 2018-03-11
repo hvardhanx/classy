@@ -16,13 +16,13 @@
             Add a new content
         {% endif %}
     </h1>
-    <div class="module">
+    <div class="container">
         <h2>Course info</h2>
 
         <form action="" method="post" enctype="multipart/form-data">
             {{ form.as_p }}
             {% csrf_token %}
-            <p><input type="submit" value="Save content"></p>
+            <p><input type="submit" class="btn btn-success" value="Save content"></p>
         </form>
     </div>
 {% endblock %}

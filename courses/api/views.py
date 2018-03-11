@@ -30,8 +30,11 @@ class CourseViewSet(viewsets.ReadOnlyModelViewSet):
                   permission_classes=[IsAuthenticated])
     def enroll(self, request, *args, **kwargs):
         course = self.get_object()
-        course.students.add(request.user)
-        return Response({'enrolled': True})
+        if course.students.count() <= 5:
+            course.students.add(request.user)
+            return Response({'enrolled': True})
+        else:
+            return Response({'enrolled': False})
 
     @detail_route(methods=['get'],
                   serializer_class=CourseSerializer,

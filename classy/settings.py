@@ -133,12 +133,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-# EMAIL_BACKEND = config('EMAIL_BACKEND')
-# EMAIL_HOST = config('EMAIL_HOST')  # mail service smtp
-# EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # email id
-# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # password
-# EMAIL_PORT = config('EMAIL_PORT')
-# EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+EMAIL_HOST = config('EMAIL_HOST')  # mail service smtp
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # email id
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # password
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 
 LOGIN_REDIRECT_URL = reverse_lazy('course_list')
 django_heroku.settings(locals())

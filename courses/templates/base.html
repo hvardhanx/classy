@@ -16,10 +16,12 @@
         <ul class="nav navbar-nav">
             {% if request.user.is_authenticated and not request.user.is_superuser %}
                 <li class="nav-item"><a class="nav-link" href="{% url "student_course_list" %}">My courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">{{ request.user.username }}</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url "logout" %}">Sign out</a></li>
             {% elif request.user.is_authenticated and request.user.is_superuser %}
                 <li class="nav-item"><a class="nav-link" href="{% url "manage_course_list" %}">My courses</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url "course_create" %}">Create courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">[{{ request.user.username }}]</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url "logout" %}">Sign out</a></li>
             {% else %}
                 <li class="nav-item"><a class="nav-link" href="{% url "login" %}">Sign in</a></li>

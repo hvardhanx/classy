@@ -8,7 +8,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
 from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
 from courses.models import Course
-from .forms import CourseEnrollForm
+from .forms import CourseEnrollForm, CourseLeaveForm
 from django.shortcuts import redirect
 
 
@@ -32,13 +32,26 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         self.course = form.cleaned_data['course']
-        print(self.course.students.count())
         if self.course.students.count() <= 5:
             self.course.students.add(self.request.user)
         return super(StudentEnrollCourseView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('student_course_detail', args=[self.course.id])
+
+
+class StudentLeaveCourseView(LoginRequiredMixin, FormView):
+    course = None
+    form_class = CourseLeaveForm
+
+    def form_valid(self, form):
+        self.course = form.cleaned_data['course']
+        if self.request.user in self.course.students.all():
+            self.course.students.remove(self.request.user)
+        return super(StudentLeaveCourseView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('student_course_list')
 
 
 class StudentCourseListView(LoginRequiredMixin, ListView):

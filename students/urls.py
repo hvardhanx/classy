@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     url(r'^register/$', views.StudentRegistrationView.as_view(), name='student_registration'),
     url(r'^enroll-course/$', views.StudentEnrollCourseView.as_view(), name='student_enroll_course'),
+    url(r'^leave-course/$', views.StudentLeaveCourseView.as_view(), name='student_leave_course'),
 
     # Restore password
     url(r'^password-reset/$', auth_views.password_reset, name='password_reset'),

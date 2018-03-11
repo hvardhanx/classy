@@ -22,7 +22,7 @@
         <form action="" method="post">
             {{ form.as_p }}
             {% csrf_token %}
-            <p><input type="submit" value="Save course"></p>
+            <input type="submit" class="btn btn-success" value="Save course">
         </form>
     </div>
 {% endblock %}
